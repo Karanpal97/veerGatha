@@ -4,17 +4,16 @@ import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/error-page";
-import RootPg from "./root";
 import SignupPg from "./pages/signUpPg";
 import LoginPg from "./pages/loginPg";
 import HomePg from "./pages/homePg";
 import ProfilePg from "./pages/profilePg";
-
+import App from "./App";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <RootPg />,
+        element: <App />,
         // errorElement: <ErrorPage />,
         children: [{
             path: "/",

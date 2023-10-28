@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
 
-function RootPg() {
+function App() {
     return (
         <>
             <Outlet />
@@ -9,4 +9,4 @@ function RootPg() {
     );
 }
 
-export default RootPg;
+export default App;
