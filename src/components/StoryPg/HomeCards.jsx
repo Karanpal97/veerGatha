@@ -6,7 +6,7 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
-import { AiFillEye } from "react-icons/ai";
+// import { AiFillEye } from "react-icons/ai";
 
 const HomeCard = () => {
     return (
@@ -35,7 +35,7 @@ const HomeCard = () => {
                         <Typography className="px-5 mb-2 font-light text-[0.8rem] flex justify-center items-center">
                             <span className="font-light flex">
                                 {" "}
-                                <AiFillEye />
+                                {/* <AiFillEye /> */}
                             </span>{" "}
                             1k Views
                         </Typography>
