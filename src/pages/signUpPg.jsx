@@ -1,6 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import Signup from "../components/SignUpPg/signup";
 import bg from "../assets/imgs/Group_237689.png"
+import React from "react";
 
 function SignupPg() {
     return (

@@ -7,6 +7,7 @@ import {
     Button,
 } from "@material-tailwind/react";
 // import { AiFillEye } from "react-icons/ai";
+import React from "react";
 
 const HomeCard = () => {
     return (
