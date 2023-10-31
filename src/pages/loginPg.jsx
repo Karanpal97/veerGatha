@@ -7,8 +7,7 @@ function LoginPg() {
     return (
         <>
             {" "}
-            <img src={bg} alt="bg-img" className="absolute h-screen z-[-1] " />
-            <div className="grid grid-cols-7">
+            <div className="grid grid-cols-7" style={{backgroundImage:`url(${bg})` ,backgroundSize: '100% 100%'}}>
                 <div className="col-span-3">
                     <Login />
                 </div>

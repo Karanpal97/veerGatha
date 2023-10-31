@@ -100,16 +100,9 @@ const NavbarSimple = () => {
             color="transparent"
             className="border-0 mx-auto  px-4 py-3"
         >
-            <div className="flex items-center justify-between text-white-900">
-                {/* <Typography
-                    as="a"
-                    href="#"
-                    variant="h6"
-                    className="mr-4 cursor-pointer py-1.5"
-                >
-                    Navbar
-                </Typography> */}
-                <div className="hidden lg:block">
+            <div className="flex items-center justify-between text-white-900 gap-4">
+                
+                <div className="hidden lg:block ">
                     <NavList />
                 </div>
                 <div className="relative flex w-full gap-2 md:w-max">

@@ -3,22 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./components/error-page";
 import SignupPg from "./pages/signUpPg";
 import LoginPg from "./pages/loginPg";
 import HomePg from "./pages/homePg";
-import ProfilePg from "./pages/profilePg";
+import ProfilePgViewer from "./pages/profilePgviewer";
 import App from "./App";
+import ProfilePgValidator from "./pages/profilePgValidator";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
-        // errorElement: <ErrorPage />,
-        children: [{
-            path: "/",
-            element: <HomePg />,
-        },
+        children: [
+            {
+                path: "/",
+                element: <HomePg />,
+            },
             {
                 path: "/signup",
                 element: <SignupPg />,
@@ -26,12 +26,18 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <LoginPg />,
-            },{
+            },
+            {
                 path: "/home",
                 element: <HomePg />,
-            },{
-                path: "/profile",
-                element: <ProfilePg />,
+            },
+            {
+                path: "/profile/viewer",
+                element: <ProfilePgViewer />,
+            },
+            {
+                path: "/profile/validator",
+                element: <ProfilePgValidator />,
             },
         ],
     },
@@ -45,23 +51,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </React.StrictMode>
 );
 
-// {
-//     path: "/",
-//     element: <App />,
-//     errorElement: <ErrorPage />,
-//     children: [
-//         {
-//             path: "/",
-//             element: <HomePg />,
-//         },
-//         {
-//             path: "/signup",
-//             element: <SignUpPg />,
-//         },
-//         {
-//             path: "/login",
-//             element: <LoginPg />,
-//         },
-
-//     ],
-// }
