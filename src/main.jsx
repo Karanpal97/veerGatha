@@ -7,7 +7,7 @@ import SignupPg from "./pages/signUpPg";
 import LoginPg from "./pages/loginPg";
 import HomePg from "./pages/homePg";
 import ProfilePgViewer from "./pages/profilePgviewer";
-import App from "./App";
+import App from "./App.jsx";
 import ProfilePgValidator from "./pages/profilePgValidator";
 
 const router = createBrowserRouter([
