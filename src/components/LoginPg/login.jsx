@@ -42,12 +42,28 @@ const Login = () => {
                 </Typography>
                 <form className="mt-8 mb-2">
                     <div className="mb-4 flex flex-col gap-6">
-                        <Input size="lg" label="Email" color="white" />
+                        <Input
+                            size="lg"
+                            label="Email"
+                            color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    email: e.target.value,
+                                })
+                            }
+                        />
                         <Input
                             type="password"
                             size="lg"
                             label="Password"
                             color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    password: e.target.value,
+                                })
+                            }
                         />
                     </div>
                     <Checkbox
