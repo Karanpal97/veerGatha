@@ -10,7 +10,7 @@ import axios from "axios";
 import { React, useState } from "react";
 
 const api =
-    "https://f197-2409-40d7-1030-6a4f-99e2-6cbc-d6ad-7a00.ngrok-free.app/auth/";
+    "";
 
 const Signup = () => {
     const [formData, setFormData] = useState({});
@@ -19,7 +19,10 @@ const Signup = () => {
 
         try {
             console.log(formData);
-            const response = await axios.post(api+"register/viewer/", formData);
+            const response = await axios.post(
+                api + "register/viewer/",
+                formData
+            );
 
             console.log("Response:", response.data);
         } catch (error) {
@@ -28,118 +31,57 @@ const Signup = () => {
     };
 
     return (
-        <div className="relative h-screen flex ">
+        <div className="relative h-screen w-screen lg:w-auto flex justify-center items-center bg-cover">
             <div className="absolute inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-lg" />
             <Card
                 color="transparent"
                 shadow={false}
-                className="relative z-10 p-8 mt-[3rem]  ml-6 w-80 max-w-screen-lg sm:w-96"
+                className="relative z-10 w-80 max-w-screen-lg sm:w-96 text-center"
             >
                 <Typography variant="h1" color="white">
-                    Sign Up
+                    SignUp
                 </Typography>
-                <form className="mt-4 mb-2 " onSubmit={handleFormSubmit}>
-                    <div className="mb-2 flex flex-col gap-4">
+                <Typography
+                    color="white"
+                    className="text-[0.9rem] mt-1 font-normal "
+                >
+                    Enter your details to SignUp.
+                </Typography>
+                <form className="mt-8 mb-2">
+                    <div className="mb-4 flex flex-col gap-6">
                         <Input
-                            id="name"
                             size="lg"
-                            variant="standard"
-                            label="Name"
+                            label="Email"
                             color="white"
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    name: e.target.value,
+                                    email: e.target.value,
                                 })
                             }
                         />
-                        <div className="flex gap-2">
-                            <Input
-                                id="contact"
-                                size="lg"
-                                variant="standard"
-                                label="Contact"
-                                color="white"
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        number: e.target.value,
-                                    })
-                                }
-                            />
-                            <Input
-                                id="email"
-                                size="lg"
-                                variant="standard"
-                                label="Email"
-                                color="white"
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        email: e.target.value,
-                                    })
-                                }
-                            />
-                        </div>
-                        <div className="flex gap-2">
-                            <Input
-                                id="password"
-                                variant="standard"
-                                type="password"
-                                size="lg"
-                                label="Password"
-                                color="white"
-                                className=""
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        password: e.target.value,
-                                    });
-                                }}
-                            />
-                            <Input
-                                id="confirm_password"
-                                variant="standard"
-                                type="password"
-                                size="lg"
-                                label="Confirm Password"
-                                color="white"
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        password2: e.target.value,
-                                    });
-                                }}
-                            />
-                        </div>
-                        <Typography color="white">Login as</Typography>
-                        <div className="flex gap-10 text-sm">
-                            <Radio
-                                id="type"
-                                name="type"
-                                label="Viewer"
-                                color="blue"
-                                defaultChecked
-                            />
-                            <Radio
-                                name="type"
-                                label="Validator"
-                                color="white"
-                            />
-                        </div>
                         <Input
-                            id="aadhar"
+                            size="lg"
+                            label="password"
+                            color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    password: e.target.value,
+                                })
+                            }
+                        />
+                        <Input
                             type="password"
                             size="lg"
-                            variant="standard"
-                            label="Aadhar Number "
+                            label="Re-enter Password"
                             color="white"
-                            // onChange={(e) =>
-                            //     setFormData({
-                            //         ...formData,
-                            //         aadhar: e.target.value,
-                            //     })
-                            // }
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    password2: e.target.value,
+                                })
+                            }
                         />
                     </div>
                     <Checkbox
@@ -160,18 +102,10 @@ const Signup = () => {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button
-                        className="mt-6 flex justify-center "
-                        fullWidth
-                        color="white"
-                        type="submit"
-                    >
-                        Register
+                    <Button className="mt-6" fullWidth color="white">
+                        Login
                     </Button>
                 </form>
-                <div className="flex justify-center text-gray-400">
-                    Already a user-<span className="hover:text-white hover:font-extrabold"> <a href="/login"> Login</a></span>
-                </div>
             </Card>
         </div>
     );

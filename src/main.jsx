@@ -9,7 +9,8 @@ import HomePg from "./pages/homePg";
 import ProfilePgViewer from "./pages/profilePgviewer";
 import App from "./App.jsx";
 import ProfilePgValidator from "./pages/profilePgValidator";
-
+import CreatePg from "./pages/createPg";
+import StoryCreatePg from "./pages/StorycreatePg";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
                 path: "/profile/validator",
                 element: <ProfilePgValidator />,
             },
+            {
+                path: "/create",
+                element: <StoryCreatePg />,
+            },
         ],
     },
 ]);
@@ -50,4 +55,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ThemeProvider>
     </React.StrictMode>
 );
-

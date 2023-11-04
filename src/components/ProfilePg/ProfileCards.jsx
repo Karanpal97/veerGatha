@@ -9,44 +9,51 @@ import {
 import { AiFillEye } from "react-icons/ai";
 import React from "react";
 
-const ProfileCard = () => {
+const ProfileCard = ({
+    title,
+    authorName,
+    date,
+    views,
+    description,
+    imageUrl,
+}) => {
     return (
         <Card className="mt-6  border">
             <CardBody className="flex flex-col lg:flex-row gap-[2rem]">
                 <img
-                    src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                    src={imageUrl}
                     alt="card-image"
                     className="rounded w-[296px]"
                 />
-                <div><Typography variant="h5" color="blue-gray" className="my-2">
-                    Title
-                </Typography>
-                <div className="flex justify-between">
-                    <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="mb-2 font-light"
-                    >
-                        Writer name
+                <div>
+                    <Typography variant="h5" color="blue-gray" className="my-2">
+                        {title}
                     </Typography>
-                    <div className="flex justify-between gap-2">
-                        <Typography className="mb-2 text-[0.8rem] font-light flex justify-center items-center">
-                            21st Aug, 2023
+                    <div className="flex justify-between">
+                        <Typography
+                            variant="h6"
+                            color="blue-gray"
+                            className="mb-2 font-light"
+                        >
+                            {authorName}
                         </Typography>
-                        <Typography className="px-5 mb-2 font-light text-[0.8rem] flex justify-center items-center">
-                            <span className="font-light flex">
-                                {" "}
-                                <AiFillEye />
-                            </span>{" "}
-                            1k Views
-                        </Typography>
+                        <div className="flex justify-between gap-2">
+                            <Typography className="mb-2 text-[0.8rem] font-light flex justify-center items-center">
+                                {date}
+                            </Typography>
+                            <Typography className="px-5 mb-2 font-light text-[0.8rem] flex justify-center items-center">
+                                <span className="font-light flex">
+                                    {" "}
+                                    <AiFillEye />
+                                </span>{" "}
+                                {views}
+                            </Typography>
+                        </div>
                     </div>
+                    <Typography className="text-[0.85rem] font-extralight">
+                        {description}
+                    </Typography>
                 </div>
-                <Typography className="text-[0.85rem] font-extralight">
-                    The place is close to Barceloneta Beach and bus stop just 2
-                    min by walk and near to &quot;Naviglio&quot; where you can
-                    enjoy the main night life in Barcelona.
-                </Typography></div>
             </CardBody>
             <CardFooter className="pt-0 ">
                 <a

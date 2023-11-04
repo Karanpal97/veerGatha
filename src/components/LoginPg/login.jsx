@@ -6,17 +6,32 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import React from "react";
-
+const api = "";
 const Login = () => {
+    const [formData, setFormData] = useState({});
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log(formData);
+            const response = await axios.post(
+                api + "login/viewer/",
+                formData
+            );
+
+            console.log("Response:", response.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
-        <div
-            className="relative h-screen flex justify-center items-center bg-cover"
-        >
+        <div className="relative h-screen w-screen lg:w-auto flex justify-center items-center bg-cover">
             <div className="absolute inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-lg" />
             <Card
                 color="transparent"
                 shadow={false}
-                className="relative z-10 w-80 max-w-screen-lg sm:w-96"
+                className="relative z-10 w-80 max-w-screen-lg sm:w-96 text-center"
             >
                 <Typography variant="h1" color="white">
                     Login
@@ -29,7 +44,6 @@ const Login = () => {
                 </Typography>
                 <form className="mt-8 mb-2">
                     <div className="mb-4 flex flex-col gap-6">
-                        <Input size="lg" label="Name" color="white" />
                         <Input size="lg" label="Email" color="white" />
                         <Input
                             type="password"

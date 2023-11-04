@@ -2,23 +2,9 @@ import { React, useEffect, useState } from "react";
 import bg from "../assets/imgs/homepgBg.png";
 import { Button } from "@material-tailwind/react";
 import NavbarSimple from "../components/navBar";
-import HomeCard from "../components/StoryPg/HomeCards";
-import axios from "axios";
+import Avatar from "@material-tailwind/react";
 
-const HomePg = () => {
-    const [stories, setStories] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("api-endpoint")
-            .then((response) => {
-                setStories(response.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }, []);
-
+const StoryCreatePg = () => {
     return (
         <>
             <div
@@ -40,13 +26,20 @@ const HomePg = () => {
                     </Button>
                 </div>
             </div>
-            <div className="mainContainer m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ">
-                {stories.map((story, index) => (
-                    <HomeCard key={index} {...story} />
-                ))}
+            <div className=" mainContainer m-[2rem]  ">
+                <h1 className="font-extrabold text-[2rem] text-black text-center">
+                    Share Your Experience with the World
+                </h1>
+                <div>
+                    <Avatar
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="usrProfile"
+                        variant="rounded"
+                    />
+                </div>
             </div>
         </>
     );
 };
 
-export default HomePg;
+export default StoryCreatePg;

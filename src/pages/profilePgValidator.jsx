@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import bg from "../assets/imgs/homepgBg.png";
 import { Button } from "@material-tailwind/react";
 import NavbarSimple from "../components/navBar";
@@ -6,10 +6,20 @@ import { Validation } from "../components/ProfilePg/validation";
 import "../assets/imgs/homepgBg.png";
 import { Posts } from "../components/ProfilePg/post";
 import ProfileCard from "../components/ProfilePg/ProfileCards";
+import axios from "axios";
+
 const ProfilePgViewer = () => {
     const [showPosts, setShowPosts] = useState(true);
     const [showPending, setShowPending] = useState(false);
     const [showApproved, setShowApproved] = useState(false);
+
+    const [validatorData, setValidatorData] = useState([
+        { name: "", imgUrl: "", joiningDate: "", description: "" },
+    ]);
+    const [posts, setPosts] = useState([]);
+    const [pending, setPending] = useState([]);
+    const [approved, setApproved] = useState([]);
+
     const handleShowPosts = () => {
         setShowPosts(true);
         setShowPending(false);
@@ -27,6 +37,45 @@ const ProfilePgViewer = () => {
         setShowApproved(true);
     };
 
+    useEffect(() => {
+        axios
+            .get("api")
+            .then((response) => {
+                const data = response.data;
+                setValidatorData({
+                    name: data.name,
+                    imgUrl: data.imgUrl,
+                    joiningDate: data.joiningDate,
+                    description: data.description,
+                    type: data.type,
+                });
+            })
+            .catch((error) => console.error("Error:", error));
+        axios
+            .get("api")
+            .then((response) => {
+                setPosts(response.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        axios
+            .get("api")
+            .then((response) => {
+                setPending(response.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        axios
+            .get("api")
+            .then((response) => {
+                setApproved(response.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }, []);
     return (
         <>
             <div id="TopContainer " style={{ backgroundImage: `url(${bg})` }}>
@@ -64,16 +113,16 @@ const ProfilePgViewer = () => {
 
                         <div className="m-[4rem]">
                             <div className="font-bold text-[1.2rem] text-center lg:text-right">
-                                Jhon Doe
+                                {validatorData.name}
                             </div>
                             <div className="text-center lg:text-right">
-                                Viewer
+                                {validatorData.type}
                             </div>
                             <div className="text-center lg:text-right">
-                                Join Date
+                                {validatorData.joiningDate}
                             </div>
                             <div className="text-center lg:text-right my-[2rem]">
-                                Description
+                                {validatorData.description}
                             </div>
                         </div>
                     </div>
@@ -86,15 +135,16 @@ const ProfilePgViewer = () => {
                         <div className="flex gap-[3rem] items-center">
                             <a
                                 onClick={handleShowPosts}
-                                className={`text-[1.2rem] font-bold ${
+                                className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPosts ? "text-blue-600" : "text-black"
                                 }`}
+                                
                             >
                                 Posts
                             </a>
                             <a
                                 onClick={handleShowPending}
-                                className={`text-[1.2rem] font-bold ${
+                                className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPending ? "text-blue-600" : "text-black"
                                 }`}
                             >
@@ -102,7 +152,7 @@ const ProfilePgViewer = () => {
                             </a>
                             <a
                                 onClick={handleShowApproved}
-                                className={`text-[1.2rem] font-bold ${
+                                className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showApproved
                                         ? "text-blue-600"
                                         : "text-black"
@@ -111,27 +161,31 @@ const ProfilePgViewer = () => {
                                 Approved
                             </a>
                         </div>
-                        
                     </div>
                     <div
                         id="posts"
                         className={`m-[4rem] ${showPosts ? "" : "hidden"}`}
                     >
-                        <ProfileCard />
-                        <ProfileCard />
-                        <ProfileCard />
-                        <ProfileCard />
-                        <ProfileCard />
-                        <ProfileCard />
+                        {posts.map((story, index) => (
+                            <ProfileCard key={index} {...story} />
+                        ))}
                     </div>
                     <div
                         id="pending"
                         className={`m-[4rem] ${showPending ? "" : "hidden"}`}
-                    >pending</div>
+                    >
+                        {pending.map((pending, index) => (
+                            <ProfileCard key={index} {...pending} />
+                        ))}
+                    </div>
                     <div
                         id="approved"
                         className={`m-[4rem] ${showApproved ? "" : "hidden"}`}
-                    >Approved</div>
+                    >
+                        {approved.map((approved, index) => (
+                            <ProfileCard key={index} {...approved} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

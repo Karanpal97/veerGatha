@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -11,21 +11,40 @@ import {
     Checkbox,
 } from "@material-tailwind/react";
 import { FaCrown } from "react-icons/fa";
+import axios from "axios";
 
 export function Validation() {
     const [open, setOpen] = React.useState(false);
+    const [formData, setFormData] = React.useState({});
+    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsCheckboxChecked(!isCheckboxChecked);
+    };
 
     const handleOpen = () => setOpen(!open);
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        if (isCheckboxChecked) {
+            try {
+                const response = axios.post(api + "", formData);
+            } catch (error) {
+                console.error("Error : ", error);
+            }
+        } else {
+            alert("Please confirm the information is true and correct.");
+        }
+    };
     return (
         <>
-            <Button
+            <a
                 onClick={handleOpen}
-                className=" flex justify-center text-[0.6rem] items-center font-bold  gap-1 "
+                className=" flex justify-center text-[1rem] items-center font-extrabold hover:cursor-pointer  gap-1 "
             >
-                Upgrade{" "}
+                Upgrade to validator{" "}
                 <FaCrown className="text-amber-500 text-[1rem] flex items-center" />
-            </Button>
+            </a>
             <Dialog open={open} size="xs" handler={handleOpen}>
                 <div className="flex items-center justify-between">
                     <DialogHeader className=" text-center">
@@ -48,37 +67,61 @@ export function Validation() {
                         />
                     </svg>
                 </div>
-                <DialogBody>
-                    <div className="grid gap-6">
-                        <Input label="Contact" />
-                        <Input label="Aadhar Number" />
-                        <Textarea label="Write a brief description about yourself" />
-                    </div>
-                    <Checkbox
-                        label={
-                            <Typography
-                                color="blue-gray"
-                                className=" font-medium text-[0.7rem] text-center"
-                            >
-                                I hereby confirm that the above information is{" "}
-                                <span className="font-bold">
-                                    True and Correct
-                                </span>{" "}
-                                according to my knowledge
-                            </Typography>
-                        }
-                    />
-                </DialogBody>
-                <DialogFooter className="space-x-2">
-                    
-                    <Button
-                        variant="gradient"
-                        color="gray"
-                        onClick={handleOpen}
-                    >
-                        Submit
-                    </Button>
-                </DialogFooter>
+                <form onSubmit={handleFormSubmit}>
+                    <DialogBody>
+                        <div className="grid gap-6">
+                            <Input
+                                label="Contact"
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        contact: e.target.value,
+                                    });
+                                }}
+                            />
+                            <Input
+                                label="Aadhar Number"
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        aadharNo: e.target.value,
+                                    });
+                                }}
+                            />
+                            <Textarea
+                                label="Write a brief description about yourself"
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        description: e.target.value,
+                                    });
+                                }}
+                            />
+                        </div>
+                        <Checkbox
+                            checked={isCheckboxChecked}
+                            onChange={handleCheckboxChange}
+                            label={
+                                <Typography
+                                    color="blue-gray"
+                                    className=" font-medium text-[0.7rem] text-center"
+                                >
+                                    I hereby confirm that the above information
+                                    is{" "}
+                                    <span className="font-bold">
+                                        True and Correct
+                                    </span>{" "}
+                                    according to my knowledge
+                                </Typography>
+                            }
+                        />
+                    </DialogBody>
+                    <DialogFooter className="space-x-2">
+                        <Button variant="gradient" color="gray" type="submit">
+                            Submit
+                        </Button>
+                    </DialogFooter>
+                </form>
             </Dialog>
         </>
     );

@@ -1,17 +1,23 @@
 import { Typography } from "@material-tailwind/react";
 import bg from "../assets/imgs/Group_237689.png";
-import Login from "../components/LoginPg/login"
+import Login from "../components/LoginPg/login";
 import React from "react";
 
 function LoginPg() {
     return (
         <>
             {" "}
-            <div className="grid grid-cols-7" style={{backgroundImage:`url(${bg})` ,backgroundSize: '100% 100%'}}>
+            <div
+                className="grid grid-cols-7"
+                style={{
+                    backgroundImage: `url(${bg})`,
+                    backgroundSize: "100% 100%",
+                }}
+            >
                 <div className="col-span-3">
                     <Login />
                 </div>
-                <div className="flex flex-col col-span-4 items-center ">
+                <div className="hidden lg:flex flex-col col-span-4 items-center ">
                     <div className="text flex flex-1 justify-center items-center ">
                         <Typography
                             variant="h3"
