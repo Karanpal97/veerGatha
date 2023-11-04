@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import { React, useState } from "react";
 
-const api = "yy";
+const api = "";
 
 const Signup = () => {
     const [formData, setFormData] = useState({});

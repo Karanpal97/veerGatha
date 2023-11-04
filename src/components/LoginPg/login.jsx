@@ -40,7 +40,7 @@ const Login = () => {
                 >
                     Enter your details to register.
                 </Typography>
-                <form className="mt-8 mb-2">
+                <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
                     <div className="mb-4 flex flex-col gap-6">
                         <Input
                             size="lg"
@@ -84,7 +84,12 @@ const Login = () => {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button className="mt-6" fullWidth color="white">
+                    <Button
+                        className="mt-6"
+                        fullWidth
+                        color="white"
+                        type="submit"
+                    >
                         Login
                     </Button>
                 </form>
