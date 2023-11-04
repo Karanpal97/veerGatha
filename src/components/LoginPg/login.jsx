@@ -5,7 +5,8 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
-import React from "react";
+import axios from "axios";
+import { React, useState } from "react";
 const api = "";
 const Login = () => {
     const [formData, setFormData] = useState({});
@@ -14,10 +15,7 @@ const Login = () => {
 
         try {
             console.log(formData);
-            const response = await axios.post(
-                api + "login/viewer/",
-                formData
-            );
+            const response = await axios.post(api + "login/viewer/", formData);
 
             console.log("Response:", response.data);
         } catch (error) {

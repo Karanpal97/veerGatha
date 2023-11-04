@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { ThemeProvider } from "@material-tailwind/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignupPg from "./pages/signUpPg";
 import LoginPg from "./pages/loginPg";
@@ -11,6 +10,8 @@ import App from "./App.jsx";
 import ProfilePgValidator from "./pages/profilePgValidator";
 import CreatePg from "./pages/createPg";
 import StoryCreatePg from "./pages/StorycreatePg";
+import { ThemeProvider } from "@material-tailwind/react";
+
 const router = createBrowserRouter([
     {
         path: "/",
