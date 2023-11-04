@@ -46,7 +46,7 @@ const Signup = () => {
                 >
                     Enter your details to SignUp.
                 </Typography>
-                <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
+                <form className="mt-8 mb-2">
                     <div className="mb-4 flex flex-col gap-6">
                         <Input
                             size="lg"
@@ -101,12 +101,7 @@ const Signup = () => {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button
-                        className="mt-6"
-                        fullWidth
-                        color="white"
-                        type="submit"
-                    >
+                    <Button className="mt-6" fullWidth color="white">
                         Login
                     </Button>
                 </form>
