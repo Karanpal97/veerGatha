@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import bg from "../assets/imgs/homepgBg.png";
 import { Button } from "@material-tailwind/react";
 import NavbarSimple from "../components/navBar";

@@ -42,15 +42,31 @@ const Login = () => {
                 </Typography>
                 <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
                     <div className="mb-4 flex flex-col gap-6">
-                        <Input size="lg" label="Email" color="white" />
+                        <Input
+                            size="lg"
+                            label="Email"
+                            color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    email: e.target.value,
+                                })
+                            }
+                        />
                         <Input
                             type="password"
                             size="lg"
                             label="Password"
                             color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    password: e.target.value,
+                                })
+                            }
                         />
                     </div>
-                    <Checkbox
+                    {/* <Checkbox
                         label={
                             <Typography
                                 variant="small"
@@ -67,7 +83,7 @@ const Login = () => {
                             </Typography>
                         }
                         containerProps={{ className: "-ml-2.5" }}
-                    />
+                    /> */}
                     <Button
                         className="mt-6"
                         fullWidth
