@@ -2,7 +2,7 @@
     "name": "veergatha",
     "private": true,
     "version": "0.0.0",
-    "homepage":"http://Shryansh107.github.io/VeerGatha",
+    "homepage":"http://Shryansh107.github.io/VeerGatha/",
     "type": "module",
     "scripts": {
         "dev": "vite",
