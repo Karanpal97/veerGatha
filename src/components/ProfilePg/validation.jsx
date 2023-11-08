@@ -12,6 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { FaCrown } from "react-icons/fa";
 import axios from "axios";
+const api ="";
 
 export function Validation() {
     const [open, setOpen] = React.useState(false);
