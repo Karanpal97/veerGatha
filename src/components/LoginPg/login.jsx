@@ -1,25 +1,41 @@
 import {
     Card,
     Input,
-    Checkbox,
     Button,
     Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
 import { React, useState } from "react";
-const api = "";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
+const api = "https://veergatha1-0.onrender.com/";
+
 const Login = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+    const [errorMessage, setErrorMessage] = useState(null);
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
         try {
             console.log(formData);
-            const response = await axios.post(api + "login/viewer/", formData);
+            const response = await axios.post(api + "auth/login/viewer/", formData);
+            localStorage.setItem("isLoggedIn", "true");
+            console.log("Response:", response.data.token.access);
+            Cookies.set("myToken", response.data.token.access, { expires: 30 });
 
-            console.log("Response:", response.data);
+            navigate('/home');
         } catch (error) {
             console.error("Error:", error);
+
+            
+            if (error.response && error.response.status === 400) {
+                setErrorMessage("Incorrect email or password");
+            } else {
+                setErrorMessage("An error occurred. Please try again.");
+            }
         }
     };
 
@@ -34,12 +50,11 @@ const Login = () => {
                 <Typography variant="h1" color="white">
                     Login
                 </Typography>
-                <Typography
-                    color="white"
-                    className="text-[0.9rem] mt-1 font-normal "
-                >
-                    Enter your details to register.
-                </Typography>
+                {errorMessage && (
+                    <Typography variant="p" color="red" className="mt-1">
+                        {errorMessage}
+                    </Typography>
+                )}
                 <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
                     <div className="mb-4 flex flex-col gap-6">
                         <Input
@@ -66,24 +81,6 @@ const Login = () => {
                             }
                         />
                     </div>
-                    {/* <Checkbox
-                        label={
-                            <Typography
-                                variant="small"
-                                color="white"
-                                className="flex items-center font-normal"
-                            >
-                                I agree the
-                                <a
-                                    href="#"
-                                    className="font-medium transition-colors hover:text-gray-900"
-                                >
-                                    &nbsp;Terms and Conditions
-                                </a>
-                            </Typography>
-                        }
-                        containerProps={{ className: "-ml-2.5" }}
-                    /> */}
                     <Button
                         className="mt-6"
                         fullWidth
@@ -92,6 +89,7 @@ const Login = () => {
                     >
                         Login
                     </Button>
+                    <span className="text-blue-gray-200"> Not a user?<a href="/signup" className=  "text-white font-bold hover:text-light-green-300"> Signup</a></span>
                 </form>
             </Card>
         </div>

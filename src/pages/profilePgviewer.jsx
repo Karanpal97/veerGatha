@@ -4,12 +4,13 @@ import { Button } from "@material-tailwind/react";
 import NavbarSimple from "../components/navBar";
 import { Validation } from "../components/ProfilePg/validation";
 import "../assets/imgs/homepgBg.png";
-import { Posts } from "../components/ProfilePg/post";
 import ProfileCard from "../components/ProfilePg/ProfileCards";
 import axios from "axios";
+import Cookies from "js-cookie";
 const ProfilePgViewer = () => {
     const [showPosts, setShowPosts] = useState(true);
     const [showPending, setShowPending] = useState(false);
+    const [userdata, setUserdata] = useState();
 
     const [viewerData, setViewerData] = useState([
         { name: "", imgUrl: "", joiningDate: "", description: "" },
@@ -20,48 +21,79 @@ const ProfilePgViewer = () => {
     const handleShowPosts = () => {
         setShowPosts(true);
         setShowPending(false);
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        axios
+            .get("https://veergatha1-0.onrender.com/feed/story/viewer/", {
+                headers,
+            })
+            .then((response) => {
+                setPosts(response.data.data);
+                console.log(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching pending stories:", error);
+            });
     };
 
     const handleShowPending = () => {
         setShowPosts(false);
         setShowPending(true);
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        axios
+            .get(
+                "https://veergatha1-0.onrender.com/buffer/story/list/viewer/",
+                { headers }
+            )
+            .then((response) => {
+                setPending(response.data.data);
+                console.log(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching pending stories:", error);
+            });
     };
 
     useEffect(() => {
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
         axios
-            .get("api")
-            .then((response) => {
-                const data = response.data;
-                setViewerData({
-                    name: data.name,
-                    imgUrl: data.imgUrl,
-                    joiningDate: data.joiningDate,
-                    description: data.description,
-                    type: data.type,
-                });
+            .get(`https://veergatha1-0.onrender.com/auth/viewer/`, {
+                headers,
             })
-            .catch((error) => console.error("Error:", error));
-        axios
-            .get("api")
             .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        axios
-            .get("api")
-            .then((response) => {
-                setPending(response.data);
+                setUserdata(response.data.data.name);
+                console.log("dataaaa:" + response.data.data.name);
+                // console.log(response.data.name);
             })
             .catch((error) => {
                 console.error("Error:", error);
             });
     }, []);
+
     return (
         <>
-            <div id="TopContainer " style={{ backgroundImage: `url(${bg})` }}>
-                <NavbarSimple />
+            <div
+                id="TopContainer "
+                className="bg-cover  "
+                style={{ backgroundImage: `url(${bg})` }}
+            >
+                <div className="absolute w-full">
+                    {" "}
+                    <NavbarSimple />
+                </div>
                 <div className="text-white w-screen h-[69.5vh] flex flex-col gap-2 justify-center items-center text-center">
                     <h1 className="font-extrabold text-[1.6rem]">
                         EXPERIENCE WHEN SHARED BECOMES INSPIRATION
@@ -71,9 +103,11 @@ const ProfilePgViewer = () => {
                         <span className="font-extrabold text-[1.3rem]">& </span>
                         INSPIRE
                     </h5>
-                    <Button color="white" className="text-black">
-                        Learn More
-                    </Button>
+                    <a href="/aboutus">
+                        <Button color="white" className="text-black">
+                            Learn More
+                        </Button>
+                    </a>
                 </div>
             </div>
             <div id="bottomContainer" className="grid  lg:grid-cols-4 ">
@@ -87,7 +121,7 @@ const ProfilePgViewer = () => {
                     >
                         <div className="flex justify-center">
                             <img
-                                src="https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
                                 alt="profilePic"
                                 className="w-[12rem] border-2 drop-shadow-lg "
                             />
@@ -116,6 +150,7 @@ const ProfilePgViewer = () => {
                     >
                         <div className="flex gap-[3rem] items-center">
                             <a
+                                href="#posts"
                                 onClick={handleShowPosts}
                                 className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPosts ? "text-blue-600" : "text-black"
@@ -124,6 +159,7 @@ const ProfilePgViewer = () => {
                                 Posts
                             </a>
                             <a
+                                href="#pending"
                                 onClick={handleShowPending}
                                 className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPending ? "text-blue-600" : "text-black"
@@ -141,7 +177,11 @@ const ProfilePgViewer = () => {
                         className={`m-[4rem] ${showPosts ? "" : "hidden"}`}
                     >
                         {posts.map((stories, index) => (
-                            <ProfileCard key={index} {...stories} />
+                            <ProfileCard
+                                key={index}
+                                {...stories}
+                                isApproved={true}
+                            />
                         ))}
                     </div>
                     <div
@@ -149,7 +189,11 @@ const ProfilePgViewer = () => {
                         className={`m-[4rem] ${showPending ? "" : "hidden"}`}
                     >
                         {pending.map((stories, index) => (
-                            <ProfileCard key={index} {...stories} />
+                            <ProfileCard
+                                key={index}
+                                {...stories}
+                                isPending={true}
+                            />
                         ))}
                     </div>
                 </div>

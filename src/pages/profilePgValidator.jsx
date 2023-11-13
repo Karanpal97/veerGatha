@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import bg from "../assets/imgs/homepgBg.png";
 import { Button } from "@material-tailwind/react";
 import NavbarSimple from "../components/navBar";
-import { Validation } from "../components/ProfilePg/validation";
 import "../assets/imgs/homepgBg.png";
-import { Posts } from "../components/ProfilePg/post";
 import ProfileCard from "../components/ProfilePg/ProfileCards";
 import axios from "axios";
-
+import Cookies from "js-cookie";
+import ValidatorCards from "../components/ProfilePg/validatorCards";
+import PendingCards from "../components/ProfilePg/PendingCards";
 const ProfilePgViewer = () => {
     const [showPosts, setShowPosts] = useState(true);
     const [showPending, setShowPending] = useState(false);
     const [showApproved, setShowApproved] = useState(false);
+    const [showvalidatorRequest, setShowValidatorRequest] = useState(false);
 
     const [validatorData, setValidatorData] = useState([
         { name: "", imgUrl: "", joiningDate: "", description: "" },
@@ -19,67 +20,150 @@ const ProfilePgViewer = () => {
     const [posts, setPosts] = useState([]);
     const [pending, setPending] = useState([]);
     const [approved, setApproved] = useState([]);
+    const [validatorRequest, setValidatorRequest] = useState([]);
 
     const handleShowPosts = () => {
         setShowPosts(true);
         setShowPending(false);
         setShowApproved(false);
+        setShowValidatorRequest(false);
     };
 
     const handleShowPending = () => {
         setShowPosts(false);
         setShowPending(true);
         setShowApproved(false);
+        setShowValidatorRequest(false);
+
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        axios
+            .get("https://veergatha1-0.onrender.com/buffer/story/list/", {
+                headers,
+            })
+            .then((response) => {
+                setPending(response.data.data);
+                console.log(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching pending stories:", error);
+            });
     };
     const handleShowApproved = () => {
         setShowPosts(false);
         setShowPending(false);
         setShowApproved(true);
+        setShowValidatorRequest(false);
+
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        axios
+            .get("https://veergatha1-0.onrender.com/feed/story/validator/", {
+                headers,
+            })
+            .then((response) => {
+                setApproved(response.data.data);
+                console.log(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching pending stories:", error);
+            });
     };
 
-    useEffect(() => {
+    const handleShowValidatrorRequest = () => {
+        setShowPosts(false);
+        setShowPending(false);
+        setShowApproved(false);
+        setShowValidatorRequest(true);
+
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
         axios
-            .get("api")
-            .then((response) => {
-                const data = response.data;
-                setValidatorData({
-                    name: data.name,
-                    imgUrl: data.imgUrl,
-                    joiningDate: data.joiningDate,
-                    description: data.description,
-                    type: data.type,
-                });
+            .get("https://veergatha1-0.onrender.com/buffer/validator/list/", {
+                headers,
             })
-            .catch((error) => console.error("Error:", error));
-        axios
-            .get("api")
             .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        axios
-            .get("api")
-            .then((response) => {
-                setPending(response.data);
+                setValidatorRequest(response.data.data);
+                console.log(response.data.data);
             })
             .catch((error) => {
-                console.error("Error:", error);
+                console.error("Error fetching pending stories:", error);
             });
+    };
+
+    const handleApproveValidator = (index) => {
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        const validatorId = validatorRequest[index].id;
+
         axios
-            .get("api")
+            .patch(
+                `https://veergatha1-0.onrender.com/buffer/validator/edit/${validatorId}/`,
+                {
+                    authorised: true,
+                },
+                { headers }
+            )
             .then((response) => {
-                setApproved(response.data);
+                const updatedValidators = [...validatorRequest];
+                updatedValidators.splice(index, 1);
+                setValidatorRequest(updatedValidators);
             })
             .catch((error) => {
-                console.error("Error:", error);
+                console.error("Error approving validator:", error);
             });
-    }, []);
+    };
+
+    const handleRejetValidator = (index) => {
+        const authToken = Cookies.get("myToken");
+
+        const headers = {
+            Authorization: `Bearer ${authToken}`,
+        };
+
+        const validatorId = validatorRequest[index].id;
+
+        axios
+            .patch(
+                `https://veergatha1-0.onrender.com/buffer/validator/edit/${validatorId}/`,
+                {
+                    authorised: false,
+                },
+                { headers }
+            )
+            .then((response) => {
+                const updatedValidators = [...validatorRequest];
+                updatedValidators.splice(index, 1);
+                setValidatorRequest(updatedValidators);
+            })
+            .catch((error) => {
+                console.error("Error Rejecting validator:", error);
+            });
+    };
+
     return (
         <>
-            <div id="TopContainer " style={{ backgroundImage: `url(${bg})` }}>
-                <NavbarSimple />
+            <div id="TopContainer " className="bg-cover" style={{ backgroundImage: `url(${bg})` }}>
+            <div className="absolute w-full">
+                    {" "}
+                    <NavbarSimple />
+                </div>
                 <div className="text-white w-screen h-[69.5vh] flex flex-col gap-2 justify-center items-center text-center">
                     <h1 className="font-extrabold text-[1.6rem]">
                         EXPERIENCE WHEN SHARED BECOMES INSPIRATION
@@ -105,7 +189,7 @@ const ProfilePgViewer = () => {
                     >
                         <div className="flex justify-center">
                             <img
-                                src="https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
                                 alt="profilePic"
                                 className="w-[12rem] border-2 drop-shadow-lg "
                             />
@@ -134,15 +218,16 @@ const ProfilePgViewer = () => {
                     >
                         <div className="flex gap-[3rem] items-center">
                             <a
+                                href="#posts"
                                 onClick={handleShowPosts}
                                 className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPosts ? "text-blue-600" : "text-black"
                                 }`}
-                                
                             >
                                 Posts
                             </a>
                             <a
+                                href="#pending"
                                 onClick={handleShowPending}
                                 className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showPending ? "text-blue-600" : "text-black"
@@ -151,6 +236,7 @@ const ProfilePgViewer = () => {
                                 Pending
                             </a>
                             <a
+                                href="#approved"
                                 onClick={handleShowApproved}
                                 className={`text-[1.2rem] font-bold hover:cursor-pointer ${
                                     showApproved
@@ -159,6 +245,17 @@ const ProfilePgViewer = () => {
                                 }`}
                             >
                                 Approved
+                            </a>
+                            <a
+                                href="#validatorRequets"
+                                onClick={handleShowValidatrorRequest}
+                                className={`text-[1.2rem] font-bold hover:cursor-pointer ${
+                                    showvalidatorRequest
+                                        ? "text-blue-600"
+                                        : "text-black"
+                                }`}
+                            >
+                                Validtor Request
                             </a>
                         </div>
                     </div>
@@ -175,7 +272,11 @@ const ProfilePgViewer = () => {
                         className={`m-[4rem] ${showPending ? "" : "hidden"}`}
                     >
                         {pending.map((pending, index) => (
-                            <ProfileCard key={index} {...pending} />
+                            <PendingCards
+                                key={index}
+                                {...pending}
+                                isPending={true}
+                            />
                         ))}
                     </div>
                     <div
@@ -183,7 +284,27 @@ const ProfilePgViewer = () => {
                         className={`m-[4rem] ${showApproved ? "" : "hidden"}`}
                     >
                         {approved.map((approved, index) => (
-                            <ProfileCard key={index} {...approved} />
+                            <ProfileCard
+                                key={index}
+                                {...approved}
+                                isApproved={true}
+                            />
+                        ))}
+                    </div>
+                    <div
+                        id="validatorRequets"
+                        className={`m-[4rem] ${
+                            showvalidatorRequest ? "" : "hidden"
+                        }`}
+                    >
+                        {validatorRequest.map((approved, index) => (
+                            <ValidatorCards
+                                key={index}
+                                index={index}
+                                onApprove={handleApproveValidator}
+                                onReject={handleRejetValidator}
+                                {...approved}
+                            />
                         ))}
                     </div>
                 </div>

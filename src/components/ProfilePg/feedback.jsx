@@ -15,7 +15,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = "https://veergatha1-0.onrender.com/";
-export function Validation() {
+
+export function FeedBackBttn({id}) {
     const [open, setOpen] = React.useState(false);
     const [formData, setFormData] = React.useState({
         aadhar: "",
@@ -33,23 +34,58 @@ export function Validation() {
 
     const handleOpen = () => setOpen(!open);
 
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const authToken = Cookies.get("myToken");
+
+    //     const headers = {
+    //         Authorization: `Bearer ${authToken}`,
+    //     };
+
+    //     if (isCheckboxChecked) {
+    //         try {
+    //             const response = await axios.post(
+    //                 api + "",
+    //                 formData,
+    //                 { headers }
+    //             );
+    //             console.log("Response:", response);
+    //             setIsApplicationUnderProcess(true);
+    //         } catch (error) {
+    //             console.error("Error: ", error);
+    //         }
+    //     } else {
+    //         alert("Please confirm the information is true and correct.");
+    //     }
+    // };
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
+    
         const authToken = Cookies.get("myToken");
-
+    
         const headers = {
             Authorization: `Bearer ${authToken}`,
         };
-
+    
         if (isCheckboxChecked) {
             try {
-                const response = await axios.post(
-                    api + "buffer/validator/create/",
-                    formData,
+                // Make a PATCH request to update the resource with feedback and set verified as false
+                const response = await axios.patch(
+                    `https://veergatha1-0.onrender.com/buffer/story/edit/${id}/`,
+                    {
+                        verified: false,
+                        feedback: formData.background, // Assuming your feedback field is called "feedback"
+                    },
                     { headers }
                 );
+    
                 console.log("Response:", response);
+    
+                // Close the dialog and set the application state
+                handleOpen();
                 setIsApplicationUnderProcess(true);
             } catch (error) {
                 console.error("Error: ", error);
@@ -58,28 +94,23 @@ export function Validation() {
             alert("Please confirm the information is true and correct.");
         }
     };
+    
     return (
         <>
             <Button
                 onClick={handleOpen}
-                className=" flex justify-center text-[0.6rem]  lg:text-[1rem] items-center font-extrabold hover:cursor-pointer  gap-1  "
-                disabled={isApplicationUnderProcess}
+                className=" flex justify-center  items-center font-extrabold hover:cursor-pointer  gap-1  "
+                color="red"
+                size="sm"
             >
-                {isApplicationUnderProcess ? (
-                    "Your application is under process"
-                ) : (
-                    <>
-                        Upgrade to validator{" "}
-                        <FaCrown className="text-amber-500 text-[1rem] flex items-center" />
-                    </>
-                )}
+                Reject
             </Button>
             <Dialog open={open} size="xs" handler={handleOpen}>
                 <div className="flex items-center justify-between">
                     <DialogHeader className=" text-center">
                         {" "}
                         <Typography className="m-2 " variant="h4">
-                            Validator Application
+                            Reason for rejecting 
                         </Typography>
                     </DialogHeader>
                     <svg
@@ -99,27 +130,9 @@ export function Validation() {
                 <form onSubmit={handleFormSubmit}>
                     <DialogBody>
                         <div className="grid gap-6">
-                            <Input
-                                label="Contact"
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        contact: e.target.value,
-                                    });
-                                }}
-                            />
-
-                            <Input
-                                label="aadhar"
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        aadhar: e.target.value,
-                                    });
-                                }}
-                            />
+                        
                             <Textarea
-                                label="Write a brief description about yourself"
+                                label="Reason...."
                                 onChange={(e) => {
                                     setFormData({
                                         ...formData,
