@@ -4,28 +4,34 @@ import {
     Checkbox,
     Button,
     Typography,
-    Radio,
 } from "@material-tailwind/react";
 import axios from "axios";
 import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const api = "";
+const api = "https://veergatha1-0.onrender.com/";
 
 const Signup = () => {
-    const [formData, setFormData] = useState({});
+    const navigate=useNavigate()
+    const [formData, setFormData] = useState({
+        email:"",
+        name:"",
+        password:"",
+        password2:""
+    });
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            console.log(formData);
+           
             const response = await axios.post(
-                api + "register/viewer/",
+                "https://veergatha1-0.onrender.com/auth/register/viewer/",
                 formData
             );
-
-            console.log("Response:", response.data);
+            
+          navigate("/login")
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error message is :", error);
         }
     };
 
@@ -46,7 +52,7 @@ const Signup = () => {
                 >
                     Enter your details to SignUp.
                 </Typography>
-                <form className="mt-8 mb-2">
+                <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
                     <div className="mb-4 flex flex-col gap-6">
                         <Input
                             size="lg"
@@ -58,6 +64,19 @@ const Signup = () => {
                                     email: e.target.value,
                                 })
                             }
+                        />
+                        <Input
+                           
+                            size="lg"
+                            label="Name"
+                            color="white"
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    name: e.target.value,
+                                })
+                            }
+                            
                         />
                         <Input
                             size="lg"
@@ -82,6 +101,7 @@ const Signup = () => {
                                 })
                             }
                         />
+                         
                     </div>
                     <Checkbox
                         label={
@@ -91,17 +111,17 @@ const Signup = () => {
                                 className="flex items-center font-normal"
                             >
                                 I agree the
-                                <a
-                                    href="#"
-                                    className="font-medium transition-colors hover:text-gray-900"
+                                <p
+                                
+                                    className="font-medium transition-colors hover:text-white-900"
                                 >
                                     &nbsp;Terms and Conditions
-                                </a>
+                                </p>
                             </Typography>
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button className="mt-6" fullWidth color="white">
+                    <Button className="mt-6" fullWidth color="white" onClick={handleFormSubmit}>
                         Login
                     </Button>
                 </form>

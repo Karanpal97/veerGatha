@@ -4,7 +4,9 @@ import React from "react";
 function App() {
     return (
         <>
-            <Outlet />
+            <div className="poppins">
+                <Outlet />
+            </div>{" "}
         </>
     );
 }

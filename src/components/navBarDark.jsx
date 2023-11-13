@@ -19,7 +19,7 @@ function NavList() {
                 className="p-1 font-medium"
             >
                 <a
-                    href="#"
+                    href="/home"
                     className="flex items-center hover:text-blue-500 font-bold transition-colors"
                 >
                     Home
@@ -32,7 +32,7 @@ function NavList() {
                 className="p-1 font-medium"
             >
                 <a
-                    href="#"
+                    href="/aboutus"
                     className="flex items-center hover:text-blue-500 font-bold transition-colors"
                 >
                     AboutUs
@@ -45,7 +45,7 @@ function NavList() {
                 className="p-1 font-medium"
             >
                 <a
-                    href="#"
+                    href="/create"
                     className="flex items-center hover:text-blue-500 font-bold transition-colors"
                 >
                     Create
@@ -58,7 +58,7 @@ function NavList() {
                 className="p-1 font-medium"
             >
                 <a
-                    href="#"
+                    href="/profile/viewer"
                     className="flex items-center hover:text-blue-500 font-bold transition-colors"
                 >
                     Profile
@@ -71,11 +71,25 @@ function NavList() {
                 className="p-1 font-medium"
             >
                 <a
-                    href="#"
+                    href="/login"
                     className="flex items-center hover:text-blue-500 font-bold transition-colors"
                 >
-                    Login/Signup
+                    Login
                 </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="white"
+                className="p-1 font-medium"
+            >
+                <a
+                    href="/signup"
+                    className="flex items-center hover:text-blue-500 font-bold transition-colors"
+                >
+                    Signup
+                </a>
+                
             </Typography>
         </ul>
     );
@@ -136,9 +150,9 @@ const NavbarSimple = () => {
                     onClick={() => setOpenNav(!openNav)}
                 >
                     {openNav ? (
-                        <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+                        <XMarkIcon className="h-6 w-6 text-black" strokeWidth={2} />
                     ) : (
-                        <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+                        <Bars3Icon className="h-6 w-6 text-black " strokeWidth={2} />
                     )}
                 </IconButton>
             </div>
