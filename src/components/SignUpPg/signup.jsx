@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 const api = "https://veergatha1-0.onrender.com/";
 
 const Signup = () => {
@@ -28,8 +28,10 @@ const Signup = () => {
                 "https://veergatha1-0.onrender.com/auth/register/viewer/",
                 formData
             );
+            Cookies.set("myToken", response.data.token.access, { expires: 30 });
+            localStorage.setItem("isLoggedIn", "true");
             
-          navigate("/login")
+          navigate("/home")
         } catch (error) {
             console.error("Error message is :", error);
         }
