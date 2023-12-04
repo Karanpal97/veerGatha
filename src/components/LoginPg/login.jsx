@@ -12,7 +12,10 @@ import Cookies from "js-cookie";
 const api = "https://veergatha1-0.onrender.com/";
 
 const Login = () => {
-    const navigate = useNavigate();
+
+  
+  
+    const navigate=useNavigate()
     const [formData, setFormData] = useState({});
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -20,10 +23,12 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            console.log(formData);
+         
             const response = await axios.post(api + "auth/login/viewer/", formData);
             localStorage.setItem("isLoggedIn", "true");
-            console.log("Response:", response.data.token.access);
+            console.log("this is the test",response.data)
+            // console.log("Response:", response.data);
+            // if(response) dispatch(logIn(userData));
             Cookies.set("myToken", response.data.token.access, { expires: 30 });
 
             navigate('/home');
@@ -39,9 +44,9 @@ const Login = () => {
         }
     };
 
-    return (
+     return (
         <div className="relative h-screen w-screen lg:w-auto flex justify-center items-center bg-cover">
-            <div className="absolute inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-lg" />
+             <div className="absolute inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-lg" />
             <Card
                 color="transparent"
                 shadow={false}
@@ -64,7 +69,7 @@ const Login = () => {
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    email: e.target.value,
+                                     email: e.target.value,
                                 })
                             }
                         />
@@ -91,9 +96,53 @@ const Login = () => {
                     </Button>
                     <span className="text-blue-gray-200"> Not a user?<a href="/signup" className=  "text-white font-bold hover:text-light-green-300"> Signup</a></span>
                 </form>
-            </Card>
+          </Card>
         </div>
-    );
-};
+    ); };
+ export default Login;
+// import React from 'react'
+// import Container from "../Container/Container"
 
-export default Login;
+// // import LogoutBtn from './LogOutBtn'
+// import { Link } from 'react-router-dom'
+// import {useSelector} from 'react-redux'
+// import { useNavigate } from 'react-router-dom'
+
+// function Login() {
+
+
+
+//   return (
+//     <header className='py-3 shadow bg-gray-500'>
+//       <Container>
+//         <nav className='flex'>
+//           <div className='mr-4'>
+//             <Link to='/'>
+//               {/* <Logo width='70px'   /> */}
+
+//               </Link>
+//           </div>
+//           <ul className='flex ml-auto'>
+//             {navItems.map((item) => 
+//             item.active ? (
+//               <li key={item.name}>
+//                 <button
+//                 onClick={() => navigate(item.slug)}
+//                 className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+// //                 >{item.name}</button>
+//               </li>
+//             ) : null
+//             )}
+//             {/* {authStatus && (
+//             //   <li>
+//             //     <LogoutBtn />
+//             //   </li>
+//             )} */}
+//           </ul>
+//         </nav>
+//         </Container>
+//     </header>
+//   )
+// }
+
+// export default Login

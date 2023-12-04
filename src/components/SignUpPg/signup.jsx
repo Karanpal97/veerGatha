@@ -1,41 +1,42 @@
-import {
-    Card,
-    Input,
-    Checkbox,
-    Button,
-    Typography,
-} from "@material-tailwind/react";
-import axios from "axios";
-import { React, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-const api = "https://veergatha1-0.onrender.com/";
+// // Signup.jsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../reactRedux/AuthSlice';
+import { Button, Card, Checkbox, Input, Typography } from '@material-tailwind/react';
+import axios from 'axios';
 
 const Signup = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
-        email:"",
-        name:"",
-        password:"",
-        password2:""
+        email: '',
+        name: '',
+        password: '',
+        password2: '',
     });
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
         try {
-           
             const response = await axios.post(
-                "https://veergatha1-0.onrender.com/auth/register/viewer/",
+                'https://veergatha1-0.onrender.com/auth/register/viewer/',
                 formData
             );
-            Cookies.set("myToken", response.data.token.access, { expires: 30 });
-            localStorage.setItem("isLoggedIn", "true");
-            
-          navigate("/home")
+
+            if (response.status >= 200 && response.status < 300) {
+                dispatch(logIn(response.data)); // Assuming your user data is in response.data
+                navigate('/home');
+            } else {
+                console.error('Error: Non-successful response from the server');
+            }
         } catch (error) {
-            console.error("Error message is :", error);
+            console.error('Error message is:', error);
         }
     };
+
 
     return (
         <div className="relative h-screen w-screen lg:w-auto flex justify-center items-center bg-cover">
@@ -133,3 +134,4 @@ const Signup = () => {
 };
 
 export default Signup;
+ 
